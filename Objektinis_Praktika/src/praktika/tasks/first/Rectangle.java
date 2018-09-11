@@ -27,6 +27,18 @@ public class Rectangle {
         intersection.put("y", leftUpperCorner.get("y")-width/2);
         return intersection ;
     }
+    public Map<String, Double> getAllCorners(){
+        Map <String, Double> corners=new HashMap<>();
+        corners.put("xUL", leftUpperCorner.get("x"));
+        corners.put("yUL", leftUpperCorner.get("y"));
+        corners.put("xUR", leftUpperCorner.get("x")+length);
+        corners.put("yUR", leftUpperCorner.get("y"));
+        corners.put("xBL", leftUpperCorner.get("x"));
+        corners.put("yBL", leftUpperCorner.get("y")-width);
+        corners.put("xBR", corners.get("xUR"));
+        corners.put("yBR", corners.get("yBL"));
+        return corners ;
+    }
     
     public Double getLength() {
         return length;
