@@ -3,34 +3,27 @@ package application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import java.awt.DisplayMode;
 import java.io.FileInputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 
 public class Main extends Application {
     Boolean commaPressed=false;
     Boolean resultIsShouwn=false;
     Boolean mathSignIsPressed=false;
-    
     
 	@Override
 	public void start(Stage primaryStage) {
@@ -52,6 +45,8 @@ public class Main extends Application {
             Button buttonEq = new Button("=");
             Button buttonComma= new Button(",");
             Button buttonClear= new Button("CE");
+            Button buttonSign=new Button("+/-");
+            
             
             FileInputStream input1 = new FileInputStream("./images/root.png");
             Image image1 = new Image(input1);
@@ -64,6 +59,10 @@ public class Main extends Application {
             Button buttonSquare=new Button("",imageView2);
             
 		    TextField textField1 = new TextField();
+		    textField1.setAlignment(Pos.BASELINE_RIGHT);
+		    textField1.setPrefHeight(30);
+		    textField1.setFont(Font.font("Times",20));
+		   
 		    
 			GridPane gridPane = new GridPane();
 			gridPane.setVgap(5); 
@@ -71,45 +70,29 @@ public class Main extends Application {
 		    gridPane.setAlignment(Pos.TOP_CENTER); 
 		    
 		    gridPane.add(textField1, 1, 0, 5, 1);
-		    gridPane.add(button1, 1, 1);
-			gridPane.add(button2, 2, 1);
-			gridPane.add(button3, 3, 1);
-			gridPane.add(button4, 1, 2);
-	        gridPane.add(button5, 2, 2);
-	        gridPane.add(button6, 3, 2);
-	        gridPane.add(button7, 1, 3);
-	        gridPane.add(button8, 2, 3);
-	        gridPane.add(button9, 3, 3);
-	        gridPane.add(button0, 1, 4);
-	        gridPane.add(buttonPlus, 4, 1);
-	        gridPane.add(buttonMinus, 4, 2);
-	        gridPane.add(buttonMult, 4, 3);
-	        gridPane.add(buttonDiv, 4, 4);
-	        gridPane.add(buttonEq, 3, 4);
-	        gridPane.add(buttonComma, 2, 4);
-	        gridPane.add(buttonClear, 5, 3);
-	        gridPane.add(buttonSquare, 5,1);
-	        gridPane.add(buttonRoot, 5,2);
-	        
-	       
-	        List <KeyCode> numberKeys=Arrays.asList(new KeyCode [] {KeyCode.NUMPAD0, KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
-	                KeyCode.NUMPAD4, KeyCode.NUMPAD5, KeyCode.NUMPAD6, KeyCode.NUMPAD7,KeyCode.NUMPAD8, KeyCode.NUMPAD9});
-      
+		    gridPane.add(button1, 1, 2);
+			gridPane.add(button2, 2, 2);
+			gridPane.add(button3, 3, 2);
+			gridPane.add(button4, 1, 3);
+	        gridPane.add(button5, 2, 3);
+	        gridPane.add(button6, 3, 3);
+	        gridPane.add(button7, 1, 4);
+	        gridPane.add(button8, 2, 4);
+	        gridPane.add(button9, 3, 4);
+	        gridPane.add(button0, 2, 5);
+	        gridPane.add(buttonPlus, 1, 1);
+	        gridPane.add(buttonMinus, 2, 1);
+	        gridPane.add(buttonMult, 3, 1);
+	        gridPane.add(buttonDiv, 4, 1);
+	        gridPane.add(buttonEq, 3, 5);
+	        gridPane.add(buttonComma, 1, 5); 
+	        gridPane.add(buttonSquare, 4,2);
+	        gridPane.add(buttonRoot, 4,3);
+	        gridPane.add(buttonSign, 4, 4);
+	        gridPane.add(buttonClear, 4, 5);
+
 	        Calculator calc=new Calculator();
-            EventHandler<KeyEvent> numberButtonKeyEventHandler = new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent key) {
-                    if (numberKeys.contains(key.getCode())) {
-                        if (resultIsShouwn || mathSignIsPressed) {
-                            textField1.clear();
-                            resultIsShouwn = false;
-                            mathSignIsPressed = false;
-                        }
-                        textField1.appendText(key.getCharacter());    
-                    }
-                }
-            };
-	        
+         
             EventHandler<ActionEvent> clearButtonsEventHandler = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -144,18 +127,19 @@ public class Main extends Application {
             EventHandler<ActionEvent> mathButtonsEventHandler = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    calc.inputValue(textField1.getText());
-                   // textField1.clear();
-                    if (calc.setValues()) {
-                        textField1.setText(String.valueOf(calc.calculate()));
-                        resultIsShouwn=true;
-                        calc.erase();
+                    if (!textField1.getText().equals("")) {
                         calc.inputValue(textField1.getText());
+                        if (calc.setValues()) {
+                            textField1.setText(String.valueOf(calc.calculate()));
+                            resultIsShouwn = true;
+                            calc.erase();
+                            calc.inputValue(textField1.getText());
+                        }
+                        Button eventObject = (Button) e.getSource();
+                        calc.inputSign(eventObject.getText());
+                        commaPressed = false;
+                        mathSignIsPressed = true;
                     }
-                    Button eventObject = (Button) e.getSource();
-                    calc.inputSign(eventObject.getText());
-                    commaPressed=false;
-                    mathSignIsPressed=true;
                 }
             };
             
@@ -179,7 +163,6 @@ public class Main extends Application {
                     textField1.setText(String.valueOf(calc.square()));
                     resultIsShouwn=true;
                     calc.erase();
-                    //Calculator.inputValue(textField1.getText());
                     commaPressed=false;
                 }
             };
@@ -191,8 +174,17 @@ public class Main extends Application {
                     textField1.setText(String.valueOf(calc.root()));
                     resultIsShouwn=true;
                     calc.erase();
-                    //Calculator.inputValue(textField1.getText());
                     commaPressed=false;
+                }
+            };
+            
+            EventHandler<ActionEvent> signButtonsEventHandler = new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    if (!textField1.getText().contains("-")) {
+                        textField1.setText("-"+textField1.getText());
+                    }
+                    else textField1.setText(textField1.getText().replace("-", ""));
                 }
             };
             
@@ -202,6 +194,7 @@ public class Main extends Application {
 
             for (Button button : numberButtons) {
                 button.setOnAction(numberButtonsEventHandler);
+                button.getStyleClass().add("buttonNum");
             }
             buttonComma.setOnAction(commaButtonsEventHandler);
 
@@ -211,15 +204,14 @@ public class Main extends Application {
             for (Button button : mathButtons) {
                 button.setOnAction(mathButtonsEventHandler);
             }
-            
-            textField1.setOnKeyPressed(numberButtonKeyEventHandler);
 
             buttonEq.setOnAction(equalsButtonsEventHandler);
             buttonClear.setOnAction(clearButtonsEventHandler);
             buttonSquare.setOnAction(squareButtonEventHandler);
             buttonRoot.setOnAction(rootButtonEventHandler);
+            buttonSign.setOnAction(signButtonsEventHandler);
             
-			Scene scene = new Scene(gridPane,300,270);
+			Scene scene = new Scene(gridPane,280,350);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("CALCULATOR");
