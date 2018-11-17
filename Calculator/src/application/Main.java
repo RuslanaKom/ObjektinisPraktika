@@ -59,11 +59,10 @@ public class Main extends Application {
             Button buttonSquare=new Button("",imageView2);
             
 		    TextField textField1 = new TextField();
+		    textField1.getStyleClass().add("textField");
 		    textField1.setAlignment(Pos.BASELINE_RIGHT);
 		    textField1.setPrefHeight(30);
-		    textField1.setFont(Font.font("Times",20));
 		   
-		    
 			GridPane gridPane = new GridPane();
 			gridPane.setVgap(5); 
 		    gridPane.setHgap(5);

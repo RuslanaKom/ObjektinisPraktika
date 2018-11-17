@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Chronometer {
 
@@ -101,4 +102,22 @@ public class Chronometer {
         String intermTime = String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
         return intermTime;
     }
+    
+	public void chronometerWork() {
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+			int button = sc.nextInt();
+
+			switch (button) {
+			case 1:
+				this.start();
+			case 2:
+				this.pause();
+			case 3:
+				System.out.println(this.getIntermediate());
+			case 4:
+				System.out.println(this.stop());
+			}
+		}
+	}
 }

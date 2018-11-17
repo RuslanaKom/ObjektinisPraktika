@@ -5,6 +5,7 @@
 	-fx-border-radius: 20;
 	-fx-background-radius: 20;
 	-fx-padding: 5;
+	-fx-font-size: 17;
 }
 
 .buttonNum {
@@ -13,4 +14,9 @@
     -fx-background-radius: 20;
     -fx-padding: 5;
     -fx-border-color :#A9A9A9;
+    -fx-font-size: 17;
+}
+
+.textField {
+	-fx-font-size: 20;
 }
