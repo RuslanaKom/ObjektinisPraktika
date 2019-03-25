@@ -2,6 +2,7 @@ package viko_encription.aes;
 
 import junit.framework.TestCase;
 import viko_encription.rsa.Input;
+import viko_encription.rsa.Output;
 import viko_encription.rsa.RsaEncripter;
 
 /**
@@ -12,9 +13,11 @@ public class AppTest
 {
     RsaEncripter enc = new RsaEncripter();
     Input input = new Input();
+    Output output = new Output();
     
    public void test() {
-      // enc.calculateKeys(2L, 7L);
-       input.getAndEncrypt("mama myla ramu");
+       input.setOutput(output);
+       input.encryptAndSend("mama myla ramu");
+       System.out.println(output.decrypt());
    }
 }

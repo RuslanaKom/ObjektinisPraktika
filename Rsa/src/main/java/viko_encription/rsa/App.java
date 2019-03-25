@@ -23,7 +23,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            RsaEncripter aesEncrypter = new RsaEncripter();
+            Input input = new Input();
+            Output output = new Output();
+            input.setOutput(output);
 
             GridPane gridPane = new GridPane();
             gridPane.setVgap(5);
@@ -40,27 +42,27 @@ public class App extends Application {
             gridPane.add(textOutput, 1, 3, 5, 1);
             gridPane.add(buttonDecrypt, 2, 4);
 
-//            
-//            EventHandler<ActionEvent> encryptButtonsEventHandler = new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent e) {
-//                    String text = textInput.getText();
-//                    aesEncrypter.encryptAndSave(text, "./newFile");
-//                    textInput.clear();
-//                    textOutput.clear();
-//                }
-//            };
-//            
-//            EventHandler<ActionEvent> decryptButtonsEventHandler = new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent e) {
-//                    String text = aesEncrypter.readAndDecrypt("./newFile");
-//                    textOutput.setText(text);
-//                }
-//            };
-//            
-//            buttonEncrypt.setOnAction(encryptButtonsEventHandler);
-//            buttonDecrypt.setOnAction(decryptButtonsEventHandler);
+            
+            EventHandler<ActionEvent> encryptButtonsEventHandler = new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    String text = textInput.getText();
+                    input.encryptAndSend(text);
+                    textInput.clear();
+                    textOutput.clear();
+                }
+            };
+            
+            EventHandler<ActionEvent> decryptButtonsEventHandler = new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    String text = output.decrypt();
+                    textOutput.setText(text);
+                }
+            };
+            
+            buttonEncrypt.setOnAction(encryptButtonsEventHandler);
+            buttonDecrypt.setOnAction(decryptButtonsEventHandler);
 
             Scene scene = new Scene(gridPane, 280, 350);
             primaryStage.setScene(scene);
