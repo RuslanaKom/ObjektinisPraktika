@@ -3,15 +3,17 @@ package viko_encription.rsa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 public class Input {
     private Output output;
     private RsaEncripter encrypter = new RsaEncripter();
 
-    public void encryptAndSend(String str) {
+    public void encryptAndSend(String message) {
         encrypter.calculateKeys(53L, 59L);
-        //String result2 = encrypter.decrypt(encrypter.encrypt(str));
-        output.receiveMessage(encrypter.encrypt(str));
-        output.receiveKey(encrypter.getDecryptionKey(), encrypter.getModulus());
+        String messageHash = DigestUtils.sha256Hex(message);
+
+        output.receiveMessage(message, encrypter.encrypt(messageHash), encrypter.getDecryptionKey(), encrypter.getModulus());
     }
 
     public Output getOutput() {

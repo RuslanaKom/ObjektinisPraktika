@@ -67,11 +67,11 @@ public class RsaEncripter {
         return finalArray;
     }
     
-    public String decrypt(byte[][]  encodedWord, Long decryptKey, Long modul) {
+    public String decrypt(byte[][]  encodedWord, Long decryptionKey, Long modulus) {
         byte[][] decodedWord = new byte[encodedWord.length] [];
         for (int i = 0; i < encodedWord.length; i++) {
             byte[] decodedChar = (new BigInteger(encodedWord[i]))
-                    .modPow(BigInteger.valueOf(decryptKey), BigInteger.valueOf(modul)).toByteArray();
+                    .modPow(BigInteger.valueOf(decryptionKey), BigInteger.valueOf(modulus)).toByteArray();
 
             System.out.println("Decoded char in numbers is: " + Integer.toBinaryString(decodedChar[0]));
 

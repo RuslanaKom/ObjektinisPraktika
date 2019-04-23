@@ -1,0 +1,38 @@
+
+CREATE TABLE Users(
+  User_ID INT NOT NULL,
+  FirstName VARCHAR(45) NULL,
+  LastName VARCHAR(45) NULL,
+  Login VARCHAR(45) NULL,
+  Password VARCHAR(45) NULL,
+  PRIMARY KEY (User_ID))
+
+
+
+CREATE TABLE IF NOT EXISTS Accounts(
+  Account_ID INT NOT NULL,
+  Type VARCHAR(45) NULL,
+  Balance DOUBLE NULL,
+  Currency VARCHAR(5) NULL,
+  User_id INT NULL,
+  withdrawLimit DOUBLE NULL,
+  depositLimit DOUBLE NULL,
+  PRIMARY KEY (Account_ID),
+  CONSTRAINT `User`
+    FOREIGN KEY (User_id)
+    REFERENCES `Users` (User_ID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+
+
+
+insert into USERS values (1, 'Vasya', 'Pupkin', 'user1', 'user1')
+insert into USERS values (2, 'Petya', 'Bubkin', 'user2', 'user2')
+
+insert into ACCOUNTS values (11, 'C', 2500, 'EUR', 1, 500, null)
+insert into ACCOUNTS values (12, 'S', 10000, 'EUR', 1, 10, 100)
+insert into ACCOUNTS values (13, 'S', 8000, 'USD', 1, 10, 120)
+
+insert into ACCOUNTS values (21, 'C', 2500, 'EUR', 2, 500, null)
+insert into ACCOUNTS values (22, 'S', 40000, 'EUR', 2, 10, 100)

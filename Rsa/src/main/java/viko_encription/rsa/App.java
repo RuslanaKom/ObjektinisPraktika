@@ -34,8 +34,8 @@ public class App extends Application {
 
             TextField textInput = new TextField();
             TextField textOutput = new TextField();
-            Button buttonEncrypt = new Button("Encrypt");
-            Button buttonDecrypt = new Button("Decrypt");
+            Button buttonEncrypt = new Button("Send message");
+            Button buttonDecrypt = new Button("Check Signature");
 
             gridPane.add(textInput, 1, 1, 5, 1);
             gridPane.add(buttonEncrypt, 2, 2);
@@ -56,7 +56,7 @@ public class App extends Application {
             EventHandler<ActionEvent> decryptButtonsEventHandler = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    String text = output.decrypt();
+                    String text = output.checkSignature()? "Signature accepted" : "Bad signature";
                     textOutput.setText(text);
                 }
             };
